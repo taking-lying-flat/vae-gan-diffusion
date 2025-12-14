@@ -291,7 +291,7 @@ def main():
     parser.add_argument('--dataset', type=str, default='cifar', 
                        choices=['mnist', 'fashion-mnist', 'cifar', 'stl'],
                        help='Dataset to use')
-    parser.add_argument('--epochs', type=int, default=50,
+    parser.add_argument('--epochs', type=int, default=20,
                        help='Number of training epochs')
     parser.add_argument('--batch_size', type=int, default=None,
                        help='Batch size (auto-select by dataset if not specified)')
