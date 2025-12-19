@@ -12,6 +12,7 @@ from utils import create_visualization_grid
 
 
 class EncoderModule(nn.Module):
+    """ 编码器基础模块：卷积 -> 批归一化 -> ReLU，用于提取图像特征并逐步下采样 """
     def __init__(self, input_channels, output_channels, stride, kernel, pad):
         super().__init__()
         self.conv = nn.Conv2d(input_channels, output_channels, kernel_size=kernel, padding=pad, stride=stride)
@@ -23,6 +24,7 @@ class EncoderModule(nn.Module):
 
 
 class Encoder(nn.Module):
+    """ 编码器：将输入的图像压缩成高维特征向量 """
     def __init__(self, color_channels, pooling_kernels, n_neurons_in_middle_layer):
         super().__init__()
         self.n_neurons_in_middle_layer = n_neurons_in_middle_layer
@@ -37,6 +39,7 @@ class Encoder(nn.Module):
 
         
 class DecoderModule(nn.Module):
+    """ 解码器基础模块：转置卷积 (Deconvolution) -> 批归一化 -> 激活函数，用于将特征向量还原回图像尺寸 """
     def __init__(self, input_channels, output_channels, stride, activation="relu"):
         super().__init__()
         self.convt = nn.ConvTranspose2d(input_channels, output_channels, kernel_size=stride, stride=stride)
@@ -51,6 +54,7 @@ class DecoderModule(nn.Module):
 
 
 class Decoder(nn.Module):
+    """ 解码器：从隐变量 z 还原图像 """
     def __init__(self, color_channels, pooling_kernels, decoder_input_size):
         super().__init__()
         self.decoder_input_size = decoder_input_size
@@ -73,23 +77,30 @@ class VAE(nn.Module):
         n_neurons_middle_layer = 256 * encoder_output_size * encoder_output_size
 
         self.encoder = Encoder(color_channels, pooling_kernels, n_neurons_middle_layer)
+        
+        # VAE 的核心：两个全连接层分别预测隐分布的均值(mu) 和方差的对数(logvar)
         self.fc1 = nn.Linear(n_neurons_middle_layer, self.n_latent_features)
         self.fc2 = nn.Linear(n_neurons_middle_layer, self.n_latent_features)
+
+        # 解码前的全连接层，将隐变量 z 映射回编码器输出的维度
         self.fc3 = nn.Linear(self.n_latent_features, n_neurons_middle_layer)
         self.decoder = Decoder(color_channels, pooling_kernels, encoder_output_size)
 
     def _reparameterize(self, mu, logvar):
+        """ VAE 不能直接从 N(mu, sigma) 采样，因为采样操作不可导。解决方法：从 N(0, 1) 采样 eps，计算 z = mu + eps * sigma """
         std = logvar.mul(0.5).exp_()
         eps = torch.randn(*mu.size(), device=mu.device)
         z = mu + std * eps
         return z
     
     def _bottleneck(self, h):
+        """ 瓶颈层：生成分布参数并采样 """
         mu, logvar = self.fc1(h), self.fc2(h)
         z = self._reparameterize(mu, logvar)
         return z, mu, logvar
         
     def sample(self, num_samples=64, device='cpu'):
+        """ 从标准正态分布采样 z，通过解码器生成新图像 """
         z = torch.randn(num_samples, self.n_latent_features, device=device)
         z = self.fc3(z)
         return self.decoder(z)
@@ -102,6 +113,11 @@ class VAE(nn.Module):
         return d, mu, logvar
     
     def loss_function(self, recon_x, x, mu, logvar):
+        """
+        VAE 损失函数 = 重建损失 (BCE) + KL 散度 (KLD)
+        BCE: 让生成的图更像原图
+        KLD: 让隐空间分布接近标准正态分布 N(0, 1)
+        """
         BCE = F.binary_cross_entropy(recon_x, x, reduction='sum')        
         KLD = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
         return BCE, KLD, BCE + KLD
