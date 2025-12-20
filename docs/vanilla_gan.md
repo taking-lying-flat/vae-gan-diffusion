@@ -1,6 +1,6 @@
-**# Generative Adversarial Networks (GAN)
+# Generative Adversarial Networks (GAN)
 
-## 1. 论文链接（会议版本，不用 arXiv）
+## 1. 论文链接
 
 **Generative Adversarial Nets** (Goodfellow et al., **NIPS 2014**)  
 
@@ -13,7 +13,7 @@
 
 ---
 
-## 2. 精炼总结
+## 2. 总结
 
 GAN 提出了一种通过 **对抗过程 (Adversarial Process)** 来学习生成模型的新框架，其本质是一个 **两人零和博弈 (Zero-Sum Game)**：
 
