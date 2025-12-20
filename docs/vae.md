@@ -1,5 +1,3 @@
-# Variational Autoencoder (VAE) 论文链接与学术总结
-
 ## 1. 论文链接（会议版本优先）
 
 - **Auto-Encoding Variational Bayes** — Diederik P. Kingma, Max Welling  
