@@ -33,7 +33,7 @@ $$
 $$
 
 ### (3) 实际训练用的 ELBO 形式
-这是 VAE 最终的损失函数形式（取负号最小化）：由**正则项**（KL 散度）和**重建项**（期望对数似然）组成
+这是 VAE 最终的优化目标：由**正则项**（KL 散度）和**重建项**（期望对数似然）组成
 
 $$
 \mathcal{L}(\boldsymbol{\theta}, \phi; \mathbf{x}^{(i)}) = -D_{KL}(q_{\phi}(\mathbf{z}|\mathbf{x}^{(i)}) || p_{\theta}(\mathbf{z})) + \mathbb{E}_{q_{\phi}(\mathbf{z}|\mathbf{x}^{(i)})} \left[ \log p_{\theta}(\mathbf{x}^{(i)}|\mathbf{z}) \right]
