@@ -112,7 +112,6 @@ $$
 
 这正是代码中 `pred_mean` 的计算来源。
 
----
 
 ## 7. 训练目标：从 ELBO 到 "Simple MSE"
 
@@ -129,8 +128,8 @@ $$
 $$
 
 其中：
-* $t \sim \text{Uniform}(\{1,\dots,T\})$
-* $x_t = \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\epsilon$
+*  $t \sim \text{Uniform}(\{1,\dots,T\})$
+*  $x_t = \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\epsilon$
 
 ---
 
@@ -138,21 +137,16 @@ $$
 
 给定 $x_T \sim \mathcal{N}(0,I)$，从 $t=T$ 迭代回 $1$：
 
-1. **预测噪声**：$\hat\epsilon = \epsilon_\theta(x_t,t)$
+1. **预测噪声**：  $\hat\epsilon = \epsilon_\theta(x_t,t)$
 2. **计算均值**：
-   $$
-   \mu_\theta(x_t,t) = \frac{1}{\sqrt{\alpha_t}}\left(x_t - \frac{\beta_t}{\sqrt{1-\bar\alpha_t}}\hat\epsilon\right)
-   $$
+   $ \mu_\theta(x_t,t) = \frac{1}{\sqrt{\alpha_t}}\left(x_t - \frac{\beta_t}{\sqrt{1-\bar\alpha_t}}\hat\epsilon\right) $
 3. **采样 (Langevin Step)**：
-   $$
-   x_{t-1} = \mu_\theta(x_t,t) + \sigma_t z, \quad z \sim \mathcal{N}(0,I)
-   $$
-   *(注意：当 $t=1$ 时，通常设 $z=0$，不加噪声)*
+   $ x_{t-1} = \mu_\theta(x_t,t) + \sigma_t z, \quad z \sim \mathcal{N}(0,I) $
+   *(注意：当  $t=1$  时，通常设  $z=0$ ，不加噪声)*
 
----
 
 ## 9. 实践要点（Code Level）
 
-* **噪声日程 $\beta_t$**：原始论文使用线性 Schedule，但后续改进版（如 Cosine Schedule）效果更好。
-* **网络预测目标**：最常用的是预测 $\epsilon$。也可以预测 $x_0$ 或 $v$（Velocity），但在标准 DDPM 中 $\epsilon$ 是默认选择。
-* **Mask $t=0$**：代码中通常会有一个 mask 操作，确保在最后一步（$t=1 \to 0$）不再加入随机噪声，保证输出的一致性。
+* 噪声日程  $\beta_t$ ：原始论文使用线性 Schedule，但后续改进版（如 Cosine Schedule）效果更好
+* **网络预测目标**：最常用的是预测  $\epsilon$。也可以预测  $x_0$ 或  $v$（Velocity），但在标准 DDPM 中  $\epsilon$ 是默认选择
+* **Mask $t=0$**：代码中通常会有一个 mask 操作，确保在最后一步（$t=1 \to 0$）不再加入随机噪声，保证输出的一致性
