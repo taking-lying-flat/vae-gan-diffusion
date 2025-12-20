@@ -2,24 +2,8 @@
 
 ## 1. 论文链接（会议版本优先）
 
-### 1.1 VAE 最经典论文（ICLR 2014）
 - **Auto-Encoding Variational Bayes** — Diederik P. Kingma, Max Welling  
-  会议条目（OpenReview / ICLR 2014）：  
   https://openreview.net/forum?id=33X9fd2-9FyZd
-
-  arXiv（同一工作最常用公开版本）：  
-  https://arxiv.org/abs/1312.6114  
-  https://arxiv.org/pdf/1312.6114.pdf
-
-### 1.2 并行独立工作（ICML 2014）
-- **Stochastic Backpropagation and Approximate Inference in Deep Generative Models** — Danilo J. Rezende, Shakir Mohamed, Daan Wierstra  
-  会议版本（PMLR / ICML 2014）：  
-  https://proceedings.mlr.press/v32/rezende14.html
-
-  arXiv：  
-  https://arxiv.org/abs/1401.4082  
-  https://arxiv.org/pdf/1401.4082.pdf
-
 
 ## 2. VAE 学术总结
 
