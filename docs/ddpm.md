@@ -21,10 +21,6 @@ DDPM 将生成建模写成一个 **显式的马尔可夫链潜变量模型**：
 
 给定数据样本 $x_0 \sim p_{\text{data}}(x)$，定义一个固定的加噪马尔可夫链：
 
-$$
-q(\mathbf{x}_{1:T}|\mathbf{x}_0) := \prod_{t=1}^{T} q(\mathbf{x}_t|\mathbf{x}_{t-1}), \quad q(\mathbf{x}_t|\mathbf{x}_{t-1}) := \mathcal{N}(\mathbf{x}_t; \sqrt{1-\beta_t}\mathbf{x}_{t-1}, \beta_t\mathbf{I})
-$$
-
 其中：
 * $\beta_t \in (0,1)$ 是噪声日程 (Schedule)
 * $\alpha_t = 1 - \beta_t$
