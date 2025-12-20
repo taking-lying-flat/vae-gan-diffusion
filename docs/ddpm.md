@@ -54,14 +54,13 @@ p_\theta(x_{0:T})=p(x_T)\prod_{t=1}^T p_\theta(x_{t-1}\mid x_t)
 $$
 
 通常设定：
-* **先验**：$p(x_T)=\mathcal{N}(0,I)$
+* **先验**： $p(x_T)=\mathcal{N}(0,I)$
 * **反向转移**（假设为高斯分布）：
 
 $$
-p_\theta(x_{t-1}\mid x_t)=\mathcal{N}\!\big(x_{t-1};\mu_\theta(x_t,t),\,\Sigma_\theta(x_t,t)\big)
+p_\theta(\mathbf{x}_{0:T}) := p(\mathbf{x}_T) \prod_{t=1}^{T} p_\theta(\mathbf{x}_{t-1}|\mathbf{x}_t), \quad p_\theta(\mathbf{x}_{t-1}|\mathbf{x}_t) := \mathcal{N}(\mathbf{x}_{t-1}; \boldsymbol{\mu}_\theta(\mathbf{x}_t, t), \boldsymbol{\Sigma}_\theta(\mathbf{x}_t, t))
 $$
 
----
 
 ## 5. 为什么采样公式总是 "mean + sqrt(var) * z"？
 
