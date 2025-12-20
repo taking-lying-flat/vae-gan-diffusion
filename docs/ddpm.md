@@ -84,17 +84,16 @@ $$
 
 这对应了代码中常见的写法：`mean + std * noise`
 
----
 
 ## 6. 后验 $q(x_{t-1}\mid x_t, x_0)$ 的闭式解
 
 虽然我们不知道真实的反向过程 $q(x_{t-1}|x_t)$（因为它依赖于未知的整体数据分布），但如果我们已知 $x_0$，后验是可以算出闭式解的：
 
 $$
-q(x_{t-1}\mid x_t,x_0)=\mathcal{N}\!\big(x_{t-1};\tilde\mu(x_t,x_0,t),\,\tilde\beta_t I\big)
+q(\mathbf{x}_{t-1}|\mathbf{x}_t, \mathbf{x}_0) = \mathcal{N}(\mathbf{x}_{t-1}; \tilde{\boldsymbol{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0), \tilde{\beta}_t\mathbf{I}),
 $$
 
-其中均值 $\tilde\mu$ 和方差 $\tilde\beta_t$ 为：
+其中均值  $\tilde\mu$  和方差  $\tilde\beta_t$  为：
 
 $$
 \tilde\beta_t = \frac{1-\bar\alpha_{t-1}}{1-\bar\alpha_t}\beta_t
