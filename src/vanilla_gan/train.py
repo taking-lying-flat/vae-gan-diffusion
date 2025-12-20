@@ -57,7 +57,7 @@ def train(dataset_name, n_epochs=100, sample_epoch_interval=10, num_workers=4, n
         encoder_output_size=dataset_config['encoder_output_size']
     ).to(device)
     
-    # BCEWithLogitsLoss for stability (D outputs logits)
+    # 定义损失函数：使用带 Logits 的二元交叉熵损失
     adversarial_loss = nn.BCEWithLogitsLoss()
     
     # Optimizers - Generator learns faster, Discriminator slower for balance
@@ -118,7 +118,8 @@ def train(dataset_name, n_epochs=100, sample_epoch_interval=10, num_workers=4, n
         
         for i, (imgs, _) in enumerate(pbar):
             batch_size = imgs.shape[0]
-            
+
+            # 给真图 0.9 的标签（而不是 1.0），可以防止判别器过于自信，从而让训练更稳定
             valid_smooth = torch.full((batch_size, 1), 0.9, device=device)
             valid_hard = torch.ones(batch_size, 1, device=device)
             fake = torch.zeros(batch_size, 1, device=device)
