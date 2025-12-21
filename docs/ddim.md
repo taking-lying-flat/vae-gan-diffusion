@@ -33,7 +33,7 @@ $$
 从定义出发：
 
 $$
-x_t=\sqrt{\alpha_t}x_{t-1}+\sqrt{1-\alpha_t}\epsilon_t,\quad \epsilon_t\sim\mathcal N(0,I)
+x_t=\sqrt{\alpha_t}x_{t-1}+\sqrt{1-\alpha_t}\epsilon_t\quad \epsilon_t\sim\mathcal N(0,I)
 $$
 
 把它连乘展开（或用归纳法）会得到：
