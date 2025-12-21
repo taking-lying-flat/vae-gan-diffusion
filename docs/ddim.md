@@ -216,9 +216,7 @@ $$
 于是定义反向转移：
 
 $$
-p_\theta(x_{t-1}\mid x_t)
-=
-\mathcal N\!\Big(
+p_\theta(x_{t-1}\mid x_t) = \mathcal N\Big(
 \sqrt{\bar\alpha_{t-1}}\hat x_0+
 \sqrt{1-\bar\alpha_{t-1}-\sigma_t^2}\ \epsilon_\theta(x_t,t),
 \ \sigma_t^2 I
@@ -228,9 +226,7 @@ $$
 对应一次采样更新就是（你要的“顺着公式到底”版本）：
 
 $$
-\boxed{
-x_{t-1}
-=
+\boxed{x_{t-1}=
 \sqrt{\bar\alpha_{t-1}}\hat x_0
 +
 \sqrt{1-\bar\alpha_{t-1}-\sigma_t^2}\ \epsilon_\theta(x_t,t)
@@ -249,8 +245,7 @@ $$
 很多实现用一个 $\eta$ 控制随机性，$\eta=1$ 对应 DDPM 的后验方差：
 
 $$
-\sigma_t
-=
+\sigma_t =
 \eta\cdot
 \sqrt{
 \frac{1-\bar\alpha_{t-1}}{1-\bar\alpha_t}
@@ -262,9 +257,7 @@ $$
 把噪声项直接消掉：
 
 $$
-\boxed{
-x_{t-1}
-=
+\boxed{x_{t-1} =
 \sqrt{\bar\alpha_{t-1}}\hat x_0
 +
 \sqrt{1-\bar\alpha_{t-1}}\ \epsilon_\theta(x_t,t)
@@ -312,20 +305,24 @@ $$
 \sum_t \gamma_t\,\mathbb E\|\epsilon-\epsilon_\theta(x_t,t)\|^2 + \text{const}
 $$
 
-这就是“不同 $q_\sigma$（不同 $\sigma$）只会改变权重 $\gamma_t$，但损失形式仍然是噪声预测 MSE”，也就是论文说的“共享 surrogate objective”。
+这就是“不同  $q_\sigma$（不同 $\sigma$）只会改变权重  $\gamma_t$，但损失形式仍然是噪声预测 MSE”，也就是论文说的“共享 surrogate objective”。
 
 ---
 
 ## 9. 采样为什么能加速：不是“公式更快”，是“你可以跳步”
 
-上面统一更新式默认跑 $t=T,T-1,\dots,1$ 共 $T$ 步。
+上面统一更新式默认跑  $t=T,T-1,\dots,1$ 共 $T$ 步。
 但 DDIM 允许你选一个子序列（时间索引）：
+
 $$
 \tau=(\tau_1<\cdots<\tau_S)\subset\{1,\dots,T\}
 $$
+
 采样时只在这些点上更新：
+
 $$
 x_{\tau_S}\to x_{\tau_{S-1}}\to \cdots \to x_{\tau_1}\to x_0
 $$
-更新式完全同型，只要把 $(t,t-1)$ 换成 $(\tau_i,\tau_{i-1})$，把 $\bar\alpha_t$ 换成 $\bar\alpha_{\tau_i}$。
-于是你把网络调用次数从 $T=1000$ 直接降到 $S=50/20$，这就是速度来源。
+
+更新式完全同型，只要把  $(t,t-1)$ 换成  $(\tau_i,\tau_{i-1})$，把  $\bar\alpha_t$ 换成  $\bar\alpha_{\tau_i}$
+于是你把网络调用次数从 $T=1000$ 直接降到 $S=50/20$，这就是速度来源
