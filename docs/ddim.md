@@ -74,12 +74,15 @@ $$
 ## 3. ELBO 拆开后，为什么会变成“预测噪声”的 MSE
 
 ELBO（变分下界）标准形式：
+
 $$
 \log p_\theta(x_0)\ \ge\ 
 \mathbb E_{q(x_{1:T}\mid x_0)}
 \big[\log p_\theta(x_{0:T})-\log q(x_{1:T}\mid x_0)\big]
 $$
+
 把两条链代进去、逐步整理，会得到“每个时间步一个 KL”的结构（省略常数项）：
+
 $$
 \mathcal L \approx \sum_{t=2}^T 
 \mathbb E_q \Big[
@@ -87,22 +90,27 @@ $$
 \Big]
 \ +\ \text{(t=1 重建项)}
 $$
+
 如果你令反向模型也用高斯、并且方差取某个固定值（或按日程给定）：
+
 $$
 p_\theta(x_{t-1}\mid x_t)=\mathcal N(\mu_\theta(x_t,t),\ \sigma_t^2 I)
 $$
 那么每个 KL（同方差高斯之间）就等价于“均值差的平方”：
+
 $$
 \mathrm{KL}(\mathcal N(\mu_q,\sigma_t^2 I)\|\mathcal N(\mu_\theta,\sigma_t^2 I))
 =\frac{1}{2\sigma_t^2}\|\mu_q-\mu_\theta\|^2
 $$
+
 接下来关键是：用 $\epsilon$-参数化（噪声预测器）来写均值，让 $\mu_q-\mu_\theta$ 变成一个系数乘 $(\epsilon-\epsilon_\theta)$，于是整体等价于加权 MSE：
+
 $$
 \sum_t \gamma_t\ \mathbb E\|\epsilon-\epsilon_\theta(x_t,t)\|^2
 $$
+
 这就是你熟悉的 DDPM “simple loss / noise prediction loss”。
 
----
 
 ## 4. 到这里为止，你缺的那条“桥”是什么？
 
