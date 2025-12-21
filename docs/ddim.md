@@ -39,21 +39,21 @@ $$
 把它连乘展开（或用归纳法）会得到：
 
 $$
-x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\,\epsilon,\quad \epsilon\sim\mathcal N(0,I)
+x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\epsilon,\quad \epsilon\sim\mathcal N(0,I)
 $$
 
 因此边缘分布是：
 
 $$
-q(x_t\mid x_0)=\mathcal N(\sqrt{\bar\alpha_t}\,x_0,\ (1-\bar\alpha_t)I)
+q(x_t\mid x_0)=\mathcal N(\sqrt{\bar\alpha_t}x_0,\ (1-\bar\alpha_t)I)
 $$
 
-**停一下：这条闭式边缘就是后面 DDIM “训练不变”的核心原因。**
+**停一下：这条闭式边缘就是后面 DDIM “训练不变”的核心原因**
 因为很多训练目标只用到了它，而没用到联合分布是马尔可夫链这件事
 
----
 
-## 2. 反向“真后验” $q(x_{t-1}\mid x_t,x_0)$
+
+## 2. 反向“真后验”  $q(x_{t-1}\mid x_t,x_0)$
 
 **为什么它也是高斯？**
 你已经有：
