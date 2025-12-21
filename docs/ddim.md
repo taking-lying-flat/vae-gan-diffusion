@@ -21,19 +21,19 @@ DDPM 的前向扩散也是马尔可夫链：
 
 $$
 q(x_{1:T}\mid x_0)=\prod_{t=1}^T q(x_t\mid x_{t-1}),
-\qquad q(x_t\mid x_{t-1})=\mathcal N(\sqrt{\alpha_t}\x_{t-1}\(1-\alpha_t)I)
+\qquad q(x_t\mid x_{t-1})=\mathcal N(\sqrt{\alpha_t}x_{t-1}\(1-\alpha_t)I)
 $$
 
 
 
-## 1. 最关键闭式边缘： $q(x_t\mid x_0)$
+## 1. 最关键闭式边缘：  $q(x_t\mid x_0)$
 
 这一步是整个扩散模型的基石。
 
 从定义出发：
 
 $$
-x_t=\sqrt{\alpha_t}x_{t-1}+\sqrt{1-\alpha_t}\,\epsilon_t,\quad \epsilon_t\sim\mathcal N(0,I)
+x_t=\sqrt{\alpha_t}x_{t-1}+\sqrt{1-\alpha_t}\epsilon_t,\quad \epsilon_t\sim\mathcal N(0,I)
 $$
 
 把它连乘展开（或用归纳法）会得到：
